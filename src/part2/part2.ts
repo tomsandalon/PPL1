@@ -17,7 +17,6 @@ export const composeMany : <T> (array:Array<(obj:T)=>T>) => ((newFunc:T)=>T) = <
     reduce((acc,curr)=> compose(acc, curr), (x:T)=>x, array);
 
 
-
 /* Question 4 */
 interface Languages {
     english: string;
@@ -42,8 +41,106 @@ interface Pokemon {
     base: Stats;
 }
 
-export const maxSpeed = undefined;
+export const maxSpeed : (pokedex:Pokemon[]) => Pokemon[] = (pokedex:Pokemon[]) =>
+    reduce((acc, curr) => {
+        if (curr === pokedex[0])
+            return acc;
+        else if (acc[0].base.Speed < curr.base.Speed)
+            return [curr];
+        else if (acc[0].base.Speed === curr.base.Speed)
+            return acc.concat([curr]);
+        return acc;},
+        [pokedex[0]], pokedex);
 
 export const grassTypes = undefined;
 
 export const uniqueTypes = undefined;
+
+
+//quick test here
+
+
+let pokedex : Pokemon[] = [{
+    "id": 1,
+    "name": {
+      "english": "Bulbasaur",
+      "japanese": "フシギダネ",
+      "chinese": "妙蛙种子",
+      "french": "Bulbizarre"
+    },
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 49,
+      "Defense": 49,
+      "Sp. Attack": 65,
+      "Sp. Defense": 65,
+      "Speed": 1
+    }
+},{
+"id": 2,
+"name": {
+  "english": "Bulbasaur",
+  "japanese": "フシギダネ",
+  "chinese": "妙蛙种子",
+  "french": "Bulbizarre"
+},
+"type": [
+  "Grass",
+  "Poison"
+],
+"base": {
+  "HP": 45,
+  "Attack": 49,
+  "Defense": 49,
+  "Sp. Attack": 65,
+  "Sp. Defense": 65,
+  "Speed": 3
+}
+},{
+    "id": 3,
+    "name": {
+      "english": "Bulbasaur",
+      "japanese": "フシギダネ",
+      "chinese": "妙蛙种子",
+      "french": "Bulbizarre"
+    },
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 49,
+      "Defense": 49,
+      "Sp. Attack": 65,
+      "Sp. Defense": 65,
+      "Speed": 2
+    }
+    },{
+        "id": 4,
+        "name": {
+          "english": "Bulbasaur",
+          "japanese": "フシギダネ",
+          "chinese": "妙蛙种子",
+          "french": "Bulbizarre"
+        },
+        "type": [
+          "Grass",
+          "Poison"
+        ],
+        "base": {
+          "HP": 45,
+          "Attack": 49,
+          "Defense": 49,
+          "Sp. Attack": 65,
+          "Sp. Defense": 65,
+          "Speed": 3
+        }
+        },
+        
+]
+console.log(maxSpeed(pokedex));

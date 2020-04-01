@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { partition, mapMat, composeMany } from "../src/part2/part2";
+import { partition, mapMat, composeMany} from "../src/part2/part2";
 
 describe("Assignment 1 Part 2", () => {
     it("check partition", ()=> {
@@ -14,4 +14,9 @@ describe("Assignment 1 Part 2", () => {
         const squareAndHalf = composeMany([(x:number)=>x*4,(x: number) => x / 2, (x: number) => x * x]);
         expect(squareAndHalf(5)).to.equals(50);
     });
+
+    it("check maxSpeed", ()=> {
+        expect(squareAndHalf(5)).to.equals(50);
+    });
+
 });
