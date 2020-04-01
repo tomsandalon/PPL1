@@ -1,5 +1,12 @@
+import  {filter} from "ramda"
+
+
 /* Question 1 */
-export const partition = undefined;
+export const partition : <T> (pred: ((obj:T)=> boolean), arr:T[]) => T[][] = <T>(pred: ((obj:T)=> boolean), arr:T[]) => 
+[
+    arr.filter(pred,arr),
+    arr.filter((x)=>!pred(x),arr)
+];
 
 /* Question 2 */
 export const mapMat = undefined;
