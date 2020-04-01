@@ -1,4 +1,4 @@
-import  {filter} from "ramda"
+import  {filter, map} from "ramda"
 
 
 /* Question 1 */
@@ -9,7 +9,8 @@ export const partition : <T> (pred: ((obj:T)=> boolean), arr:T[]) => T[][] = <T>
 ];
 
 /* Question 2 */
-export const mapMat = undefined;
+export const mapMat : <T> (func: (obj:T)=>T, arr:T[][]) => T[][] =
+    <T>(func: (obj:T)=>T, arr:T[][]) => map((x:T[])=>map(func, x), arr);
 
 /* Question 3 */
 export const composeMany = undefined;
