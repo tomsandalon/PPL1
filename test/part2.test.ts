@@ -15,8 +15,8 @@ describe("Assignment 1 Part 2", () => {
         expect(squareAndHalf(5)).to.equals(50);
     });
 
-    it("check maxSpeed", ()=> {
-        expect(squareAndHalf(5)).to.equals(50);
-    });
+    // it("check maxSpeed", ()=> {
+    //     expect(squareAndHalf(5)).to.equals(50);
+    // });
 
 });
