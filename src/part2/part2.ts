@@ -21,7 +21,6 @@ interface Languages {
     chinese: string;
     french: string;
 }
- 
 
 interface Stats {
     HP: number;
