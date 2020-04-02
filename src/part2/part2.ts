@@ -39,105 +39,115 @@ interface Pokemon {
 }
 
 export const maxSpeed : (pokedex:Pokemon[]) => Pokemon[] = (pokedex:Pokemon[]) =>
-    reduce((acc, curr) => {
-        if (curr === pokedex[0])
-            return acc;
-        else if (acc[0].base.Speed < curr.base.Speed)
-            return [curr];
-        else if (acc[0].base.Speed === curr.base.Speed)
-            return acc.concat([curr]);
-        return acc;},
-        [pokedex[0]], pokedex);
+filter((pokemon:Pokemon)=>pokemon.base.Speed===(reduce((acc:number,curr:number) => Math.max(acc,curr), 0, map((p:Pokemon)=>p.base.Speed, pokedex))), pokedex);
 
-export const grassTypes = undefined;
+    // reduce((acc, curr) => {
+    //     if (curr === pokedex[0])
+    //         return acc;
+    //     else if (acc[0].base.Speed < curr.base.Speed)
+    //         return [curr];
+    //     else if (acc[0].base.Speed === curr.base.Speed)
+    //         return acc.concat([curr]);
+    //     return acc;},
+    //     [pokedex[0]], pokedex);
 
-export const uniqueTypes = undefined;
+export const grassTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]) => 
+map((pok:Pokemon)=>pok.name.english, filter((p:Pokemon)=>p.type.indexOf('Grass')>-1, pokedex)).sort();
+
+export const uniqueTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]) =>
+reduce((acc:string[], curr:string) => acc.indexOf(curr)>-1 ? acc : acc.concat([curr]), //look for duplicates
+[],
+  reduce((acc:string[], curr:string[])=> acc.concat(curr), //concat all types
+  [],
+  map((p:Pokemon)=>p.type,pokedex)) //get all types
+).sort(); //sort all
+
 
 
 //quick test here
 
-
-let pokedex : Pokemon[] = [{
-    "id": 1,
-    "name": {
-      "english": "Bulbasaur",
-      "japanese": "フシギダネ",
-      "chinese": "妙蛙种子",
-      "french": "Bulbizarre"
-    },
-    "type": [
-      "Grass",
-      "Poison"
-    ],
-    "base": {
-      "HP": 45,
-      "Attack": 49,
-      "Defense": 49,
-      "Sp. Attack": 65,
-      "Sp. Defense": 65,
-      "Speed": 1
-    }
-},{
-"id": 2,
-"name": {
-  "english": "Bulbasaur",
-  "japanese": "フシギダネ",
-  "chinese": "妙蛙种子",
-  "french": "Bulbizarre"
-},
-"type": [
-  "Grass",
-  "Poison"
-],
-"base": {
-  "HP": 45,
-  "Attack": 49,
-  "Defense": 49,
-  "Sp. Attack": 65,
-  "Sp. Defense": 65,
-  "Speed": 3
-}
-},{
-    "id": 3,
-    "name": {
-      "english": "Bulbasaur",
-      "japanese": "フシギダネ",
-      "chinese": "妙蛙种子",
-      "french": "Bulbizarre"
-    },
-    "type": [
-      "Grass",
-      "Poison"
-    ],
-    "base": {
-      "HP": 45,
-      "Attack": 49,
-      "Defense": 49,
-      "Sp. Attack": 65,
-      "Sp. Defense": 65,
-      "Speed": 2
-    }
-    },{
-        "id": 4,
-        "name": {
-          "english": "Bulbasaur",
-          "japanese": "フシギダネ",
-          "chinese": "妙蛙种子",
-          "french": "Bulbizarre"
-        },
-        "type": [
-          "Grass",
-          "Poison"
-        ],
-        "base": {
-          "HP": 45,
-          "Attack": 49,
-          "Defense": 49,
-          "Sp. Attack": 65,
-          "Sp. Defense": 65,
-          "Speed": 3
-        }
-        },
-        
-]
-console.log(maxSpeed(pokedex));
+// let pokedex : Pokemon[] = [
+//   {
+//     "id": 1,
+//     "name": {
+//       "english": "Bulbasaur",
+//       "japanese": "フシギダネ",
+//       "chinese": "妙蛙种子",
+//       "french": "Bulbizarre"
+//     },
+//     "type": [
+//       "Poison"
+//     ],
+//     "base": {
+//       "HP": 45,
+//       "Attack": 49,
+//       "Defense": 49,
+//       "Sp. Attack": 65,
+//       "Sp. Defense": 65,
+//       "Speed": 1
+//     }
+//   },
+//   {
+//     "id": 2,
+//     "name": {
+//       "english": "Culbasaur",
+//       "japanese": "フシギダネ",
+//       "chinese": "妙蛙种子",
+//       "french": "Bulbizarre"
+//     },
+//     "type": [
+//       "Grass",
+//       "Poison"
+//     ],
+//     "base": {
+//       "HP": 45,
+//       "Attack": 49,
+//       "Defense": 49,
+//       "Sp. Attack": 65,
+//       "Sp. Defense": 65,
+//       "Speed": 3
+//     }
+//   },
+//   {
+//     "id": 3,
+//     "name": {
+//       "english": "Bulbasaur",
+//       "japanese": "フシギダネ",
+//       "chinese": "妙蛙种子",
+//       "french": "Bulbizarre"
+//     },
+//     "type": [
+//       "Grass",
+//       "Poison"
+//     ],
+//     "base": {
+//       "HP": 45,
+//       "Attack": 49,
+//       "Defense": 49,
+//       "Sp. Attack": 65,
+//       "Sp. Defense": 65,
+//       "Speed": 2
+//     }
+//   },
+//     {
+//         "id": 4,
+//         "name": {
+//           "english": "Bulbasaur",
+//           "japanese": "フシギダネ",
+//           "chinese": "妙蛙种子",
+//           "french": "Bulbizarre"
+//         },
+//         "type": [
+//           "Poison"
+//         ],
+//         "base": {
+//           "HP": 45,
+//           "Attack": 49,
+//           "Defense": 49,
+//           "Sp. Attack": 65,
+//           "Sp. Defense": 65,
+//           "Speed": 3
+//         }
+//       },
+// ]
+// console.log(uniqueTypes(pokedex));
