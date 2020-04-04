@@ -51,4 +51,3 @@ export const naiveValidateUser : (user:User) => Result<User> = (user:User) => (!
 
 export const monadicValidateUser : (user:User) => Result<User> =
     (user:User) => reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle]);
-    //(user:User) => bind(bind(bind(makeOk(user), validateEmail), validateName), validateHandle);
