@@ -1,5 +1,7 @@
 /* Question 3 */
 
+import { reduce } from "ramda";
+
 export type Result<T> = {
     tag: 'Ok',
     value: T;
@@ -16,7 +18,7 @@ export const isFailure : <T>(r:Result<T>) => boolean = <T>(r:Result<T>) => r.tag
 
 /* Question 4 */
 export const bind : <T, U>(result:Result<T>, f:(x:T) => Result<U>) => Result<U> =
-<T,U> (result: Result<T>, f:(x: T) => Result<U>) =>
+<T,U> (result: Result<T>, f:(x: T) => Result<U>):Result<U> =>
 (result.tag === 'Ok') ? f(result.value) : {tag: 'Failure', message: result.message}
 
 
@@ -42,6 +44,13 @@ const validateHandle = (user: User): Result<User> =>
     user.handle.startsWith("@") ? makeFailure("This isn't Twitter") :
     makeOk(user);
 
-export const naiveValidateUser = undefined;
+export const naiveValidateUser : (user:User) => Result<User> = (user:User) =>
+{
+    if (!isOk(validateName(user))) return validateName(user);
+    if (!isOk(validateEmail(user))) return validateEmail(user);
+    return validateHandle(user);
+};
 
-export const monadicValidateUser = undefined;
+export const monadicValidateUser : (user:User) => Result<User> =
+    (user:User) => reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle]);
+    //(user:User) => bind(bind(bind(makeOk(user), validateEmail), validateName), validateHandle);
