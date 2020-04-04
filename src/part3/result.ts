@@ -2,24 +2,28 @@
 
 import { reduce } from "ramda";
 
-export type Result<T> = {
+type Ok<T> ={
     tag: 'Ok',
     value: T;
-}|{
-    tag: 'Failure',
-    message: string
 }
+
+type Failure<T> ={
+    tag: 'Failure',
+    message:string
+}
+
+export type Result<T> = Ok<T>|Failure<T>;
 
 export const makeOk : <T>(newValue:T)=>Result<T> = <T> (newValue:T)=>({tag: 'Ok', value: newValue});
 export const makeFailure : <T>(newMessage:string) => Result<T> = <T> (newMessage:string) => ({tag: 'Failure', message:newMessage});
 
-export const isOk : <T>(r:Result<T>) => boolean = <T>(r:Result<T>) => r.tag === 'Ok';
-export const isFailure : <T>(r:Result<T>) => boolean = <T>(r:Result<T>) => r.tag === 'Failure';
+export const isOk : <T>(r:Result<T>) => r is Ok<T> = <T>(r:Result<T>):r is Ok<T> => r.tag === 'Ok';
+export const isFailure : <T>(r:Result<T>) => r is Failure<T> = <T>(r:Result<T>):r is Failure<T> => r.tag === 'Failure';
 
 /* Question 4 */
 export const bind : <T, U>(result:Result<T>, f:(x:T) => Result<U>) => Result<U> =
 <T,U> (result: Result<T>, f:(x: T) => Result<U>):Result<U> =>
-(result.tag === 'Ok') ? f(result.value) : {tag: 'Failure', message: result.message}
+(isOk(result)) ? f(result.value) : {tag: 'Failure', message: result.message}
 
 /* Question 5 */
 interface User {
