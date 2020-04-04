@@ -7,12 +7,8 @@ export type Optional<T>= {
     tag: 'None';
 }
 
-export const makeSome : <T>(value:T)=>Optional<T> = <T>(insertValue:T) => {
-    return {tag:'Some',value:insertValue};
-};
-export const makeNone : <T>()=>Optional<T> = <T>()=>{
-    return {tag:'None'};
-};
+export const makeSome : <T>(value:T)=>Optional<T> = <T>(insertValue:T) => ({tag:'Some',value:insertValue});
+export const makeNone : <T>()=>Optional<T> = <T>()=>({tag:'None'});
 
 export const isSome : <T>(o:Optional<T>) => boolean = <T>(o:Optional<T>) => o.tag === 'Some';
 export const isNone : <T>(o:Optional<T>) => boolean = <T>(o:Optional<T>) => o.tag === 'None';
