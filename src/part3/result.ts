@@ -47,7 +47,7 @@ const validateHandle = (user: User): Result<User> =>
     user.handle.startsWith("@") ? makeFailure("This isn't Twitter") :
     makeOk(user);
 
-export const naiveValidateUser : (user:User) => Result<User> = (user:User) => (!isOk(validateName(user))) ? validateName(user) : (!isOk(validateEmail(user))) ? validateEmail(user) : validateEmail(user);
+export const naiveValidateUser : (user:User) => Result<User> = (user:User) => (!isOk(validateName(user))) ? validateName(user) : (!isOk(validateEmail(user))) ? validateEmail(user) : validateHandle(user);
 
 export const monadicValidateUser : (user:User) => Result<User> =
     (user:User) => reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle]);
