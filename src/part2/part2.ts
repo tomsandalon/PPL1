@@ -38,26 +38,12 @@ interface Pokemon {
     base: Stats;
 }
 
-export const maxSpeed : (pokedex:Pokemon[]) => Pokemon[] = (pokedex:Pokemon[]) =>
-filter((pokemon:Pokemon)=>pokemon.base.Speed===(reduce((acc:number,curr:number) => Math.max(acc,curr), 0, map((p:Pokemon)=>p.base.Speed, pokedex))), pokedex);
-
-    // reduce((acc, curr) => {
-    //     if (curr === pokedex[0])
-    //         return acc;
-    //     else if (acc[0].base.Speed < curr.base.Speed)
-    //         return [curr];
-    //     else if (acc[0].base.Speed === curr.base.Speed)
-    //         return acc.concat([curr]);
-    //     return acc;},
-    //     [pokedex[0]], pokedex);
+export const maxSpeed:(arr:Pokemon[])=>Pokemon[] = (arr:Pokemon[]):Pokemon[]=>
+filter((pokemon:Pokemon)=>pokemon.base.Speed===reduce((acc:number,cur:Pokemon)=>Math.max(acc,cur.base.Speed),0,arr),arr);
 
 export const grassTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]) => 
 map((pok:Pokemon)=>pok.name.english, filter((p:Pokemon)=>p.type.indexOf('Grass')>-1, pokedex)).sort();
 
-export const uniqueTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]) =>
-reduce((acc:string[], curr:string) => acc.indexOf(curr)>-1 ? acc : acc.concat([curr]), //look for duplicates
-[],
-  reduce((acc:string[], curr:string[])=> acc.concat(curr), //concat all types
-  [],
-  map((p:Pokemon)=>p.type,pokedex)) //get all types
-).sort(); //sort all
+export const uniqueTypes:(arr:Pokemon[])=>string[] = (arr:Pokemon[]):string[]=>
+    reduce((acc:string[],cur:string)=>acc.indexOf(cur)===-1?acc.concat([cur]):acc,[],
+    reduce((acc:string[],cur:Pokemon)=>acc.concat(cur.type),[],arr)).sort();
