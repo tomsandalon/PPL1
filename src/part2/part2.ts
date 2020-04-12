@@ -2,16 +2,16 @@ import  {filter, map, reduce, compose} from "ramda"
 
 
 /* Question 1 */
-export const partition : <T> (pred: ((obj:T)=> boolean), arr:T[]) => T[][] = <T>(pred: ((obj:T)=> boolean), arr:T[]) => 
-[filter(pred, arr), filter((x)=>!pred(x), arr)];
+export const partition : <T> (pred: ((obj:T)=> boolean), arr:T[]) => T[][] = <T>(pred: ((obj:T)=> boolean), arr:T[]):T[][] => 
+[filter(pred, arr), filter((x:T)=>!pred(x), arr)];
 
 
 /* Question 2 */
-export const mapMat : <T> (func: (obj:T)=>T, arr:T[][]) => T[][] =
-    <T>(func: (obj:T)=>T, arr:T[][]) => map((subArr:T[])=>map(func, subArr), arr);
+export const mapMat :<T,U>(fanc:(obj:T)=>U,matrix:T[][])=>U[][] = <T,U>(fanc:(obj:T)=>U,matrix:T[][]):U[][]=>
+map((x:T[])=>map(fanc,x),matrix);
 
 /* Question 3 */
-export const composeMany : <T> (array:Array<(obj:T)=>T>) => ((newFunc:T)=>T) = <T> (array:Array<(obj:T)=>T>) =>
+export const composeMany : <T>(array:Array<(obj:T)=>T>) => ((newFunc:T)=>T) = <T> (array:Array<(obj:T)=>T>):((newFunc:T)=>T) =>
     reduce((acc,curr)=> compose(acc, curr), (x:T)=>x, array);
 
 /* Question 4 */
@@ -41,7 +41,7 @@ interface Pokemon {
 export const maxSpeed:(arr:Pokemon[])=>Pokemon[] = (arr:Pokemon[]):Pokemon[]=>
 filter((pokemon:Pokemon)=>pokemon.base.Speed===reduce((acc:number,cur:Pokemon)=>Math.max(acc,cur.base.Speed),0,arr),arr);
 
-export const grassTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]) => 
+export const grassTypes : (pokedex:Pokemon[]) => string[] = (pokedex:Pokemon[]):string[] => 
 map((pok:Pokemon)=>pok.name.english, filter((p:Pokemon)=>p.type.indexOf('Grass')>-1, pokedex)).sort();
 
 export const uniqueTypes:(arr:Pokemon[])=>string[] = (arr:Pokemon[]):string[]=>
