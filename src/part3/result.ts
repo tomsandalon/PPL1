@@ -7,23 +7,23 @@ type Ok<T> ={
     value: T;
 }
 
-type Failure<T> ={
+type Failure ={
     tag: 'Failure',
     message:string
 }
 
-export type Result<T> = Ok<T>|Failure<T>;
+export type Result<T> = Ok<T>|Failure;
 
 export const makeOk : <T>(newValue:T)=>Result<T> = <T> (newValue:T):Ok<T>=>({tag: 'Ok', value: newValue});
-export const makeFailure : <T>(newMessage:string) => Result<T> = <T> (newMessage:string):Failure<T> => ({tag: 'Failure', message:newMessage});
+export const makeFailure : <T>(newMessage:string) => Result<T> = (newMessage:string):Failure => ({tag: 'Failure', message:newMessage});
 
 export const isOk : <T>(r:Result<T>) => r is Ok<T> = <T>(r:Result<T>):r is Ok<T> => r.tag === 'Ok';
-export const isFailure : <T>(r:Result<T>) => r is Failure<T> = <T>(r:Result<T>):r is Failure<T> => r.tag === 'Failure';
+export const isFailure : <T>(r:Result<T>) => r is Failure = <T>(r:Result<T>):r is Failure => r.tag === 'Failure';
 
 /* Question 4 */
 export const bind : <T, U>(result:Result<T>, f:(x:T) => Result<U>) => Result<U> =
 <T,U> (result: Result<T>, f:(x: T) => Result<U>):Result<U> =>
-(isOk(result)) ? f(result.value) : {tag: 'Failure', message: result.message}
+isOk(result) ? f(result.value) : result;
 
 /* Question 5 */
 interface User {
@@ -47,7 +47,7 @@ const validateHandle = (user: User): Result<User> =>
     user.handle.startsWith("@") ? makeFailure("This isn't Twitter") :
     makeOk(user);
 
-export const naiveValidateUser : (user:User) => Result<User> = (user:User):Result<User> => (!isOk(validateName(user))) ? validateName(user) : (!isOk(validateEmail(user))) ? validateEmail(user) : validateHandle(user);
+export const naiveValidateUser:(user:User)=>Result<User> = (user:User):Result<User>=>
+reduce((acc:Result<User>,cur:(user: User)=> Result<User>)=>isOk(acc)?cur(acc.value):acc,makeOk(user),[validateName, validateEmail,validateHandle]) ;
 
-export const monadicValidateUser : (user:User) => Result<User> =
-    (user:User):Result<User> => reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle]);
+export const monadicValidateUser : (user:User) => Result<User> = (user:User):Result<User> => reduce(bind, makeOk(user), [validateName, validateEmail, validateHandle]);

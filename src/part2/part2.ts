@@ -11,7 +11,7 @@ export const mapMat :<T,U>(fanc:(obj:T)=>U,matrix:T[][])=>U[][] = <T,U>(fanc:(ob
 map((x:T[])=>map(fanc,x),matrix);
 
 /* Question 3 */
-export const composeMany : <T>(array:Array<(obj:T)=>T>) => ((newFunc:T)=>T) = <T> (array:Array<(obj:T)=>T>):((newFunc:T)=>T) =>
+export const composeMany : <T>(array:Array<(obj:T)=>T>) => ((newFunc:T)=>T) = <T>(array:Array<(obj:T)=>T>):((newFunc:T)=>T) =>
     reduce((acc,curr)=> compose(acc, curr), (x:T)=>x, array);
 
 /* Question 4 */
